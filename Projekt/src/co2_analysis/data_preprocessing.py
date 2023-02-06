@@ -43,8 +43,8 @@ def clear_data(api_pop, api_gdp):
     :param api_gdp: a dataframe with countries and their GDP
     :return: DataFrames corrected with correct_api() function
     """
-    api_pop = clear_data_api(api_pop)
-    api_gdp = clear_data_api(api_gdp)
+    api_pop = correct_api(api_pop)
+    api_gdp = correct_api(api_gdp)
 
     return api_pop, api_gdp
 
@@ -65,6 +65,7 @@ def merge_data(api_gdp, api_pop, co2):
 
     pop_gdp = pop_melt.merge(gdp_melt, on=["Country", "Year"])
     pop_gdp["Year"] = pop_gdp["Year"].astype("int64")
+    pop_gdp["Country"] = pop_gdp["Country"].map(lambda x: x.upper())
 
     pop_gdp_co2 = pop_gdp.merge(co2, on=["Country", "Year"])
     return pop_gdp_co2

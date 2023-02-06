@@ -32,7 +32,7 @@ def co2_reduction_ranking(merged_data, end_year, number_of_years=10):
     :param merged_data: a DataFrame with countries, years, GDP (obtained using merge_data() function on DataFrames:
     api_pop (countries, years, population), api_gdp (countries, years, GDP), co2 (countries, years, CO2)
     :param end_year:
-    :param number_of_years: 
+    :param number_of_years:
     :return: A table with 5 countries that within the specified time range reduced their CO2 emission the most, and a
     second table with 5 countries that increased their CO2 emission the most.
     """
