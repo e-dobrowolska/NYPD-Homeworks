@@ -49,19 +49,20 @@ def gdp_ranking(merged_data, start_year=None, end_year=None):
         return gdp_ranking(merged_data)
 
 
-
-def co2_reduction_ranking(merged_data, end_year, number_of_years=10):
+def co2_reduction_ranking(merged_data, up_to_year=None, number_of_years=10):
     """
-    Creates a ranking of countries regarding their CO2 emission reduction
+    Creates rankings of countries regarding their CO2 emission changes: the greatest reduction and the greatest increase
     :param merged_data: a DataFrame with countries, years, GDP (obtained using merge_data() function on DataFrames:
-    api_pop (countries, years, population), api_gdp (countries, years, GDP), co2 (countries, years, CO2)
-    :param end_year:
+    api_pop (countries, years, population), api_gdp (countries, years, GDP), co2 (countries, years, CO2))
+    :param up_to_year:
     :param number_of_years:
     :return: A table with 5 countries that within the specified time range reduced their CO2 emission the most, and a
     second table with 5 countries that increased their CO2 emission the most.
     """
+    up_to_year = max(merged_data["Year"]) if up_to_year is None else up_to_year
+
     pivot_df = merged_data.pivot(index='Country', columns='Year')['Per Capita']
-    pivot_df["Reduction"] = pivot_df[end_year]-pivot_df[end_year-number_of_years]
+    pivot_df["Reduction"] = pivot_df[up_to_year]-pivot_df[up_to_year-number_of_years]
     pivot_df = pivot_df["Reduction"].sort_values()
     pivot_df = pivot_df.dropna()
     return pd.DataFrame(pivot_df.head(5)), pd.DataFrame(pivot_df.tail(5).sort_values(ascending=False))
