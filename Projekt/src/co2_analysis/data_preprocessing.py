@@ -7,7 +7,7 @@ def correct_api(api_data):
     """
     Corrects an api DataFrame (previously read as one column). Splits it into multiple columns, changes columns' types
     into numeric, sets header.
-    :param api_data: a DataFrame, api_pop or api_gdp
+    :param api_data: a DataFrame (api_pop or api_gdp)
     :return: a corrected api DataFrame
     """
     api_data = api_data.iloc[:, 0].str.split(',"', expand=True)  # split into multiple columns
