@@ -66,6 +66,11 @@ def co2_reduction_ranking(merged_data, up_to_year=None, number_of_years=10):
     # if the user didn't provide the parameter up_to_year, it is set to the maximum year in the data
     up_to_year = max(merged_data["Year"]) if up_to_year is None else up_to_year
 
+    # if the user provided the years that don't exist in the data, return the call with default parameters
+    if up_to_year not in merged_data["Year"].unique() or up_to_year-number_of_years not in merged_data["Year"].unique():
+        warnings.warn('Years you are interested in don\'t exist. Returning the call with default parameters.')
+        return co2_reduction_ranking(merged_data)
+
     pivot_df = merged_data.pivot(index='Country', columns='Year')['Per Capita']
     pivot_df["Reduction"] = pivot_df[up_to_year]-pivot_df[up_to_year-number_of_years]  # calculate reduction
     pivot_df = pivot_df["Reduction"].sort_values()
